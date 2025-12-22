@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/app/bin/tictactoe eval "Tictactoe.Release.migrate" 

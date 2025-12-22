@@ -1,0 +1,36 @@
+# Dockerfile bootstrap file used to spin up a small container image to initialize a phoenix project.
+
+# Set up a small docker-compose.yml file that:
+# - specifies 'Dockerfile.bootstrap' as the dockerfile
+# - - .:/work as volume
+# - working_dir: /work
+
+# docker compose build
+# docker compose run bootstrap
+
+# mix archive.install hex phx_new --force
+# mix phx.new . --app tfz
+
+FROM elixir:1.16-alpine
+
+ARG UID=1000
+ARG GID=1000
+
+# Create user/group with an explicit home
+RUN addgroup -g $GID -S app \
+ && adduser  -S -D -u $UID -G app -h /home/app app
+
+ENV HOME=/home/app
+
+# Needed packages for mix + deps compilation
+RUN apk add --no-cache build-base git bash openssl
+
+# Ensure home exists and is writable, then install Hex/Rebar as the app user
+RUN mkdir -p /home/app/.mix /home/app/.hex \
+ && chown -R app:app /home/app
+
+USER app
+RUN mix local.hex --force && mix local.rebar --force
+
+WORKDIR /work
+CMD ["bash"]

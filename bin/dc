@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run arbitrary commands inside the app container
+docker compose run --rm zomboid_web "$@"

@@ -1,0 +1,47 @@
+services:
+  tfz_web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: tfz:prod
+    expose:
+      - "4000"
+    environment:
+      PHX_SERVER: "true"
+      MIX_ENV: "prod"
+      PORT: "4000"
+      PHX_HOST: "tfusa.medinag.com"
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      DATABASE_URL: "ecto://postgres:postgres@db/tfz_prod"
+      RCON_HOST: "zomboid"
+      RCON_PORT: "27015"
+      RCON_PASSWORD: "${RCON_PASSWORD}"
+    depends_on:
+      - db
+    networks:
+      - zomboid_net
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tfz_prod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
+    depends_on:
+      - tfz_web
+    networks:
+      - zomboid_net
+
+volumes:
+  pgdata:
+
+networks:
+  zomboid_net:
+    external: true

@@ -1,0 +1,31 @@
+# VCS
+.git
+.gitignore
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+
+# Elixir build artifacts & deps (should be built inside image)
+_build
+deps
+
+# Local tool caches
+.mix
+.hex
+.rebar3
+.npm
+.cache
+.bun
+.parcel-cache
+pnpm-store
+
+# Node deps (should be installed inside image)
+assets/node_modules
+assets/.parcel-cache
+assets/dist
+
+# Phoenix build outputs (typically built during image build)
+priv/static/assets
+priv/static/cache_manifes_

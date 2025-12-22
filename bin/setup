@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+HOST_UID=${HOST_UID:-$(id -u)}
+HOST_GID=${HOST_GID:-$(id -g)}
+
+echo "🧱 Building images (UID=$HOST_UID GID=$HOST_GID)…"
+HOST_UID=$HOST_UID HOST_GID=$HOST_GID docker compose -f docker-compose.dev.yml build
+
+echo "📦 Fetching Elixir deps…"
+HOST_UID=$HOST_UID HOST_GID=$HOST_GID docker compose -f docker-compose.dev.yml run --rm zomboid_web mix deps.get
+
+echo "📜 Installing JS deps into shared volume…"
+HOST_UID=$HOST_UID HOST_GID=$HOST_GID docker compose -f docker-compose.dev.yml run --rm node npm ci || docker compose -f docker-compose.dev.yml run --rm node npm install
+
+echo "🗃️  Creating database…"
+HOST_UID=$HOST_UID HOST_GID=$HOST_GID docker compose -f docker-compose.dev.yml run --rm zomboid_web mix ecto.create
+
+echo "✅ Setup complete"
+
+### NOTE:
+
+# Will probably need to manually install the node dependencies manually the first time.
+# In order to generate the proper package.json / package.json.lock file and configure it.
+
+# docker compose run --rm --no-deps --user root node sh -lc 'chown -R 1000:1000 "."'
+# docker compose run --rm node sh -lc 'npm i phoenix phoenix_html phoenix_live_view daisyui@latest'
+
+### Then just 'docker compose up'
