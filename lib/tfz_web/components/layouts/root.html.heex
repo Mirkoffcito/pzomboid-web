@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-AR" data-theme="cyberpunk">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Tfz" suffix=" · Phoenix Framework">
+    <.live_title default="Team Fusa">
       {assigns[:page_title]}
     </.live_title>
     <% static_prefix = "/zomboid" %>
+    <link rel="icon" type="image/x-icon" href={static_prefix <> ~p"/favicon.ico"} />
     <link phx-track-static rel="stylesheet"
           href={static_prefix <> ~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript"

@@ -22,6 +22,11 @@ end
 
 config :tfz, TfzWeb.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
+config :tfz, :zomboid_server,
+  name: System.get_env("ZOMBOID_NAME"),
+  host: System.get_env("ZOMBOID_HOST"),
+  port: String.to_integer(System.get_env("ZOMBOID_PORT"))
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

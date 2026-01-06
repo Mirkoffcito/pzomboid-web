@@ -2,4 +2,4 @@
 set -euo pipefail
 
 # Run arbitrary commands inside the app container
-docker compose run --rm zomboid_web "$@"
+docker compose -f docker-compose.dev.yml run --rm zomboid_web "$@"

@@ -21,19 +21,22 @@ defmodule Tfz.Zomboid.PlayerTracker do
 
   @impl true
   def handle_info(:refresh, state) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+
     new_state =
       case Tfz.Zomboid.Rcon.players() do
         {:ok, players} ->
-          %{state | players: players, last_updated: DateTime.utc_now(), status: :ok}
+          %{state | players: players, last_updated: now, status: :ok}
 
         {:error, reason} ->
-          %{state | last_updated: DateTime.utc_now(), status: reason}
+          %{state | last_updated: now, status: {:error, reason}}
       end
 
     Phoenix.PubSub.broadcast(Tfz.PubSub, @topic, {:players_update, new_state})
     schedule_refresh(poll_ms())
     {:noreply, new_state}
   end
+
 
   defp poll_ms do
     System.get_env("RCON_POLL_MS", "5000")

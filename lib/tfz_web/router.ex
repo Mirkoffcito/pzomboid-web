@@ -17,8 +17,8 @@ defmodule TfzWeb.Router do
   scope "/zomboid", TfzWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    live "/players", PlayersLive
+    # get "/", PageController, :home
+    live "/", PlayersLive
   end
 
   # Other scopes may use custom stacks.

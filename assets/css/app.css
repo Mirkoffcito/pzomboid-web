@@ -103,3 +103,178 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+@layer components {
+  /* Matrix “skin” applied to the whole page */
+  .matrix-ui {
+    /* Terminal-ish font */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    letter-spacing: 0.02em;
+
+    /* Dark background + subtle green haze */
+    background:
+      radial-gradient(900px 500px at 20% 10%, rgba(0, 255, 120, 0.10), transparent 60%),
+      radial-gradient(800px 500px at 80% 30%, rgba(0, 255, 120, 0.06), transparent 55%),
+      linear-gradient(180deg, #183018 0%, #020302 100%);
+  }
+
+  /* Scanlines overlay */
+  .matrix-ui::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.0) 0px,
+        rgba(0, 0, 0, 0.0) 2px,
+        rgba(0, 0, 0, 0.25) 3px
+      );
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+  }
+
+  /* Card with neon border + glow */
+  .matrix-card {
+    background: rgba(5, 10, 6, 0.75);
+    border: 1px solid rgba(0, 255, 120, 0.20);
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 120, 0.10) inset,
+      0 10px 40px rgba(0, 0, 0, 0.65),
+      0 0 28px rgba(0, 255, 120, 0.10);
+    backdrop-filter: blur(8px);
+  }
+
+  .matrix-title {
+    @apply text-4xl font-extrabold;
+    color: #a6ffcc;
+    text-shadow: 0 0 12px rgba(0, 255, 120, 0.35);
+  }
+
+  .matrix-subtitle {
+    color: #b8ffd6;
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.25);
+  }
+
+  .matrix-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    padding: 4px 10px;
+    background: rgba(0, 255, 120, 0.10);
+    color: #b8ffd6;
+    border: 1px solid rgba(0, 255, 120, 0.35);
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.30);
+
+    /* prevent resize / keep tidy */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 100%; /* never exceed container */
+  }
+
+  .matrix-badge--addr { width: 18rem; }
+  .matrix-badge--updated { width: 18rem; }
+
+  @media (max-width: 640px) {
+    .matrix-badge--addr,
+    .matrix-badge--updated {
+      width: 100%;       /* stack full-width */
+    }
+  }
+
+  .matrix-header-grid {
+    @apply grid gap-4;
+  }
+
+  /* Desktop: left takes remaining, right is sized to content */
+  @media (min-width: 768px) {
+    .matrix-header-grid {
+      grid-template-columns: 1fr auto;
+      align-items: start;
+    }
+  }
+
+  .matrix-badge-row {
+    @apply flex flex-col gap-2;              /* mobile: stacked */
+  }
+
+  @media (min-width: 640px) {
+    .matrix-badge-row {
+      @apply flex-row flex-wrap items-center; /* desktop/tablet: row + wrap */
+    }
+  }
+
+  .matrix-status {
+    @apply flex items-center gap-2 justify-self-end;
+  }
+
+  .matrix-status-label {
+    @apply text-sm opacity-70;
+    white-space: nowrap;
+  }
+
+  .matrix-btn {
+    border-color: rgba(0, 255, 120, 0.45);
+    color: #b8ffd6;
+  }
+  .matrix-btn:hover {
+    background: rgba(0, 255, 120, 0.12);
+    box-shadow: 0 0 18px rgba(0, 255, 120, 0.18);
+  }
+
+  /* Table gets terminal vibe */
+  .matrix-table {
+    @apply table;
+    width: 100%;
+
+    /* force readable text everywhere */
+    color: #b8ffd6;
+  }
+  .matrix-table th,
+  .matrix-table td {
+    color: inherit;            /* prevent any row styles from changing text */
+    border-color: rgba(0, 255, 120, 0.12);
+  }
+
+  .matrix-table thead th {
+    background: rgba(0, 255, 120, 0.08);
+    color: #a6ffcc;
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.20);
+    border-bottom: 1px solid rgba(0, 255, 120, 0.18);
+  }
+
+  /* Matrix zebra (you control contrast) */
+  .matrix-table tbody tr {
+    background: rgba(0, 0, 0, 0.10);
+  }
+
+  .matrix-table tbody tr:nth-child(even) {
+    background: rgba(0, 255, 120, 0.06);
+  }
+
+  .matrix-table tbody tr:hover {
+    background: rgba(0, 255, 120, 0.12);
+  }
+
+  .matrix-text {
+    color: #b8ffd6;
+    text-shadow:
+      0 0 10px rgba(0, 255, 120, 0.28),
+      0 0 22px rgba(0, 255, 120, 0.14);
+  }
+
+  /* optional: slightly stronger for the headline line */
+  .matrix-text-strong {
+    color: #a6ffcc;
+    text-shadow:
+      0 0 12px rgba(0, 255, 120, 0.38),
+      0 0 28px rgba(0, 255, 120, 0.18);
+  }
+}
+
+

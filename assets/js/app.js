@@ -24,11 +24,16 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 // import {hooks as colocatedHooks} from "phoenix-colocated/tictactoe"
 import topbar from "../vendor/topbar"
+import { LocalUpdatedAt } from "./hooks/local_updated_at"
+
+let Hooks = {}
+Hooks.LocalUpdatedAt = LocalUpdatedAt
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/zomboid/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
+  hooks: Hooks
   //  hooks: {...colocatedHooks},
 })
 
@@ -80,4 +85,5 @@ if (process.env.NODE_ENV === "development") {
     window.liveReloader = reloader
   })
 }
+
 
