@@ -9,7 +9,7 @@ You can use [my other repo](https://github.com/Mirkoffcito/pzomboid) to up the P
 
 ## Demo
 
-- [**Live Demo**](https://tfusa.medinag.com)
+- [**Live Demo**](https://tfusa.medinag.com/zomboid)
 
 ---
 
