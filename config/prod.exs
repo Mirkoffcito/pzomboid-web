@@ -11,7 +11,7 @@ config :tfz, TfzWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest
 # known as HSTS. If you have a health check endpoint, you may want to exclude it below.
 # Note `:force_ssl` is required to be set at compile-time.
 config :tfz, TfzWeb.Endpoint,
-  url: [scheme: "https", host: "tfusa.medinag.com", port: 443],
+  url: [scheme: "https", host: System.get_env("WEB_HOST"), port: 443],
   force_ssl: [
     rewrite_on: [:x_forwarded_proto],
     exclude: [hosts: ["localhost", "127.0.0.1"]]
