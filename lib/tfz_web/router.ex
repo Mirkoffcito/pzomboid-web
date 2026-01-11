@@ -6,6 +6,7 @@ defmodule TfzWeb.Router do
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {TfzWeb.Layouts, :root}
+    plug :put_layout, html: {TfzWeb.Layouts, :app}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -18,7 +19,10 @@ defmodule TfzWeb.Router do
     pipe_through :browser
 
     # get "/", PageController, :home
-    live "/", PlayersLive
+    live_session :default, layout: {TfzWeb.Layouts, :app} do
+      live "/", PlayersLive, :index
+    end
+    get "/players", PlayersController, :index
   end
 
   # Other scopes may use custom stacks.

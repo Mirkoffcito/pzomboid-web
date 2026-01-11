@@ -32,6 +32,8 @@ services:
       POSTGRES_DB: tfz_prod
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - zomboid_net
 
   cloudflared:
     image: cloudflare/cloudflared:latest

@@ -1,0 +1,13 @@
+<div class="matrix-ui min-h-screen flex flex-col">
+  <TfzWeb.ZomboidLayouts.navbar active={@nav_active || :online} />
+
+  <main class="flex-1 bg-transparent">
+    <div class="mx-auto max-w-4xl p-6 space-y-6">
+      <%= @inner_content %>
+    </div>
+  </main>
+
+  <TfzWeb.ZomboidLayouts.footer />
+
+  <.flash_group flash={@flash} />
+</div>

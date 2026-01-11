@@ -1,0 +1,53 @@
+<div class="card matrix-card shadow">
+  <div class="card-body">
+    <div class="matrix-card-header">
+      <div class="matrix-card-header-left">
+        <.link href={~p"/zomboid"} class="btn btn-sm btn-outline matrix-btn">
+          <span class="matrix-text">Ver quien está en linea</span>
+        </.link>
+      </div>
+
+      <div class="matrix-card-header-center">
+        <h1 class="matrix-title text-2xl">Jugadores</h1>
+      </div>
+
+      <div class="matrix-card-header-right">
+        <span class="badge badge-lg matrix-badge"><%= length(@players) %></span>
+      </div>
+    </div>
+
+
+    <div class="overflow-x-auto mt-4">
+      <table class="table matrix-table">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Última vez</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for p <- @players do %>
+            <tr>
+              <td class="font-medium matrix-text-strong"><%= p.username %></td>
+              <td class="matrix-text">
+              <%= if p.last_seen_at do %>
+                <time
+                  id={"last-seen-#{p.id}"}
+                  phx-hook="LocalUpdatedAt"
+                  data-iso={DateTime.to_iso8601(p.last_seen_at)}
+                  data-locale="es-AR"
+                >
+                  <%= DateTime.to_string(p.last_seen_at) %>
+                </time>
+              <% else %>
+                <span class="matrix-text opacity-70">Desconocido</span>
+              <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -13,7 +13,8 @@ defmodule TfzWeb.PlayersLive do
        last_updated: snap.last_updated,
        status: snap.status,
        server: Tfz.Zomboid.ServerInfo.info(),
-       page_title: "Team Fusa - Zomboid"
+       page_title: "Team Fusa - Zomboid",
+      nav_active: :online
      )}
   end
 

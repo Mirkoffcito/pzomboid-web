@@ -25,8 +25,11 @@ defmodule Tfz.Zomboid.PlayerTracker do
 
     new_state =
       case Tfz.Zomboid.Rcon.players() do
-        {:ok, players} ->
-          %{state | players: players, last_updated: now, status: :ok}
+      {:ok, players} ->
+        now = DateTime.utc_now() |> DateTime.truncate(:second)
+        Tfz.Zomboid.Players.mark_seen(players)
+        %{state | players: players, last_updated: now, status: :ok}
+
 
         {:error, reason} ->
           %{state | last_updated: now, status: {:error, reason}}

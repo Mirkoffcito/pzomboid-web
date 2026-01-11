@@ -147,6 +147,42 @@
     backdrop-filter: blur(8px);
   }
 
+  .matrix-card-header {
+    display: grid;
+    gap: 0.75rem;
+    align-items: center;
+
+    /* mobile: 2 columnas y 2 filas */
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "center center"
+      "left   right";
+  }
+
+  .matrix-card-header-left {
+    grid-area: left;
+    justify-self: start;
+    max-width: 12rem;
+  }
+
+  .matrix-card-header-center {
+    grid-area: center;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .matrix-card-header-right {
+    grid-area: right;
+    justify-self: end;
+  }
+
+  .matrix-card-header-left .btn {
+    width: 100%;
+    white-space: normal;
+    height: auto;
+    line-height: 1.1;
+  }
+
   .matrix-title {
     @apply text-4xl font-extrabold;
     color: #a6ffcc;
@@ -185,6 +221,26 @@
     .matrix-badge--updated {
       width: 100%;       /* stack full-width */
     }
+
+    .matrix-card-header-right {
+      justify-self: end;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .matrix-badge-row {
+      @apply flex-row flex-wrap; /* desktop/tablet: row + wrap */
+    }
+
+    .matrix-card-header {
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas: "left center right";
+    }
+
+    .matrix-card-header-left .btn {
+      width: auto;
+      white-space: nowrap; /* opcional: en desktop suele quedar mejor */
+    }
   }
 
   .matrix-header-grid {
@@ -201,12 +257,6 @@
 
   .matrix-badge-row {
     @apply flex flex-col gap-2;              /* mobile: stacked */
-  }
-
-  @media (min-width: 640px) {
-    .matrix-badge-row {
-      @apply flex-row flex-wrap items-center; /* desktop/tablet: row + wrap */
-    }
   }
 
   .matrix-status {
@@ -275,6 +325,150 @@
       0 0 12px rgba(0, 255, 120, 0.38),
       0 0 28px rgba(0, 255, 120, 0.18);
   }
+
+  /* NAVBAR */
+  .matrix-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    background: rgba(3, 12, 5, 0.78);
+    border-bottom: 1px solid rgba(0, 255, 120, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 120, 0.08) inset,
+      0 10px 30px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+  }
+
+  .matrix-brand {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #a6ffcc;
+    text-shadow: 0 0 12px rgba(0, 255, 120, 0.35);
+    letter-spacing: 0.03em;
+  }
+
+  .matrix-nav-sub {
+    color: #b8ffd6;
+    opacity: 0.85;
+  }
+
+  .matrix-nav-sep {
+    color: rgba(0, 255, 120, 0.6);
+  }
+
+  .matrix-nav-links {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .matrix-nav-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(0, 255, 120, 0.18);
+    background: rgba(0, 255, 120, 0.05);
+    color: #b8ffd6;
+    transition: all 150ms ease;
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.18);
+  }
+
+  .matrix-nav-item:hover {
+    background: rgba(0, 255, 120, 0.10);
+    border-color: rgba(0, 255, 120, 0.35);
+    box-shadow: 0 0 18px rgba(0, 255, 120, 0.14);
+  }
+
+  .matrix-nav-item.is-active {
+    background: rgba(0, 255, 120, 0.14);
+    border-color: rgba(0, 255, 120, 0.45);
+    color: #a6ffcc;
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 120, 0.10) inset,
+      0 0 22px rgba(0, 255, 120, 0.18);
+  }
+
+  .matrix-nav-icon {
+    /* override daisyUI ghost button tint */
+    background: rgba(0, 255, 120, 0.06);
+    border: 1px solid rgba(0, 255, 120, 0.22);
+    border-radius: 0.75rem;
+
+    /* ensure text/icon is bright */
+    color: #a6ffcc;
+
+    /* subtle glow */
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 120, 0.10) inset,
+      0 0 14px rgba(0, 255, 120, 0.12);
+  }
+
+  .matrix-nav-icon svg {
+    /* make the stroke clearly visible */
+    stroke: #a6ffcc;
+    opacity: 1;
+  }
+
+  .matrix-nav-icon:hover {
+    background: rgba(0, 255, 120, 0.10);
+    box-shadow: 0 0 18px rgba(0, 255, 120, 0.14);
+  }
+
+  .matrix-nav-menu {
+    background: rgba(2, 10, 4, 0.90);
+    border: 1px solid rgba(0, 255, 120, 0.22);
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 120, 0.10) inset,
+      0 16px 40px rgba(0, 0, 0, 0.65),
+      0 0 26px rgba(0, 255, 120, 0.10);
+    backdrop-filter: blur(10px) saturate(160%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
+  }
+
+  .matrix-nav-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #b8ffd6;
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.16);
+  }
+
+  .matrix-nav-menu-item:hover {
+    background: rgba(0, 255, 120, 0.10);
+  }
+
+  .matrix-nav-menu-item.is-active {
+    background: rgba(0, 255, 120, 0.14);
+    color: #a6ffcc;
+  }
+
+  .matrix-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 120, 0.35);
+    box-shadow: 0 0 10px rgba(0, 255, 120, 0.18);
+    background: rgba(0, 255, 120, 0.05);
+  }
+
+  .matrix-dot[data-active="true"] {
+    background: rgba(0, 255, 120, 0.85);
+    box-shadow:
+      0 0 12px rgba(0, 255, 120, 0.45),
+      0 0 26px rgba(0, 255, 120, 0.20);
+  }
+
+  /* FOOTER */
+  .matrix-footer {
+    border-top: 1px solid rgba(0, 255, 120, 0.18);
+    background: rgba(5, 10, 6, 0.65);
+    color: #b8ffd6;
+    opacity: 0.9;
+    text-shadow: 0 0 10px rgba(0, 255, 120, 0.12);
+  }
+
 }
 
 

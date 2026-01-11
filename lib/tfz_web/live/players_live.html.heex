@@ -1,101 +1,99 @@
-<div class="matrix-ui min-h-screen bg-base-200">
-  <div class="mx-auto max-w-4xl p-6 space-y-6">
+<!-- SERVER CARD -->
+<div class="card matrix-card shadow">
+  <div class="card-body gap-4">
+    <div class="matrix-header-grid">
+      <div class="space-y-2">
+        <h1 class="matrix-title">
+          <%= @server.name %> (B42.13.1)
+        </h1>
 
-    <!-- SERVER CARD -->
-    <div class="card matrix-card shadow">
-      <div class="card-body gap-4">
-        <div class="matrix-header-grid">
-          <div class="space-y-2">
-            <h1 class="matrix-title">
-              <%= @server.name %> (B42.13.1)
-            </h1>
-
-            <div class="matrix-badge-row">
-              <span class="matrix-badge matrix-badge--addr">
-                Dirección: <%= @server.host %>:<%= @server.port %>
-              </span>
-
-              <%= if @last_updated do %>
-                <span class="matrix-badge badge-sm matrix-badge--updated">
-                  Actualizado:
-                  <time
-                    id="updated-at"
-                    phx-hook="LocalUpdatedAt"
-                    phx-update="replace"
-                    data-iso={DateTime.to_iso8601(@last_updated)}
-                    data-locale="es-AR"
-                  >
-                    <%= DateTime.to_string(@last_updated) %>
-                  </time>
-                </span>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="matrix-status">
-            <span class="matrix-status-label matrix-text-strong">Estado del servidor</span>
-            <span class={"badge badge-lg " <> status_badge(@status)}>
-              <%= status_label(@status) %>
-            </span>
-          </div>
-        </div>
-
-        <%= if match?({:error, _}, @status) do %>
-          <div class="alert alert-error">
-            <span>Server status unknown (RCON unreachable). Server may still be up.</span>
-          </div>
-        <% end %>
-
-        <div class="card-actions justify-end">
-          <button class="btn btn-sm btn-outline matrix-btn" phx-click="refresh">
-            <span class="matrix-text">Actualizar</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLAYERS CARD -->
-    <div class="card matrix-card shadow">
-      <div class="card-body">
-        <div class="flex items-center justify-between gap-4">
-          <h2 class="card-title matrix-subtitle">En linea ahora</h2>
-          <span class="badge badge-lg matrix-badge">
-            <%= length(@players) %>
+        <div class="matrix-badge-row">
+          <span class="matrix-badge matrix-badge--addr">
+            Dirección: <%= @server.host %>:<%= @server.port %>
           </span>
-        </div>
 
-        <%= if @players == [] do %>
-          <div class="mt-6 text-center opacity-70">
-            <div class="text-lg font-semibold">
-              <p class="matrix-text-strong">No hay sobrevivientes en linea.</p>
-            </div>
-            <div class="text-sm">
-              <p class="matrix-text">El mundo está en silencio… por ahora.</p>
-            </div>
-          </div>
-        <% else %>
-          <div class="overflow-x-auto mt-4">
-            <table class="table matrix-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Player</th>
-                </tr>
-              </thead>
-              <tbody>
-                <%= for {p, i} <- Enum.with_index(@players, 1) do %>
-                  <tr>
-                    <th><%= i %></th>
-                    <td class="font-medium matrix-text-strong"><%= p %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        <% end %>
+          <%= if @last_updated do %>
+            <span class="matrix-badge badge-sm matrix-badge--updated">
+              Actualizado:
+              <time
+                id="updated-at"
+                phx-hook="LocalUpdatedAt"
+                phx-update="replace"
+                data-iso={DateTime.to_iso8601(@last_updated)}
+                data-locale="es-AR"
+              >
+                <%= DateTime.to_string(@last_updated) %>
+              </time>
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="matrix-status">
+        <span class="matrix-status-label matrix-text-strong">Estado del servidor</span>
+        <span class={"badge badge-lg " <> status_badge(@status)}>
+          <%= status_label(@status) %>
+        </span>
       </div>
     </div>
 
+    <%= if match?({:error, _}, @status) do %>
+      <div class="alert alert-error">
+        <span>Server status unknown (RCON unreachable). Server may still be up.</span>
+      </div>
+    <% end %>
+
+    <div class="card-actions justify-end gap-2">
+      <.link href={~p"/zomboid/players"} class="btn btn-sm btn-outline matrix-btn">
+        <span class="matrix-text">Ver todos los jugadores</span>
+      </.link>
+
+      <button class="btn btn-sm btn-outline matrix-btn" phx-click="refresh">
+        <span class="matrix-text">Actualizar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYERS CARD -->
+<div class="card matrix-card shadow">
+  <div class="card-body">
+    <div class="flex items-center justify-between gap-4">
+      <h2 class="card-title matrix-subtitle">En linea ahora</h2>
+      <span class="badge badge-lg matrix-badge">
+        <%= length(@players) %>
+      </span>
+    </div>
+
+    <%= if @players == [] do %>
+      <div class="mt-6 text-center opacity-70">
+        <div class="text-lg font-semibold">
+          <p class="matrix-text-strong">No hay sobrevivientes en linea.</p>
+        </div>
+        <div class="text-sm">
+          <p class="matrix-text">El mundo está en silencio… por ahora.</p>
+        </div>
+      </div>
+    <% else %>
+      <div class="overflow-x-auto mt-4">
+        <table class="table matrix-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for {p, i} <- Enum.with_index(@players, 1) do %>
+              <tr>
+                <th><%= i %></th>
+                <td class="font-medium matrix-text-strong"><%= p %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   </div>
 </div>
 
